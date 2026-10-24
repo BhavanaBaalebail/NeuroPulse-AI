@@ -1,1 +1,1 @@
-{"fatigue_score": 0.500699983187928, "label": "ALERT", "confidence_pct": 50.0699983187928}
+{"fatigue_score": 0.0, "label": "ALERT", "activity_label": "", "confidence_pct": 0.0, "reasons": ["face_model_ignored_while_landmarks_are_alert"], "eye_state": "OPEN", "mouth_class": "closed", "head_pose_status": "level", "looking_down": false, "looking_down_duration_s": 0.0, "pitch_deg": 5.360760430988441, "index_is_probability": false, "updated_at": 1792729628.771637, "ear": 0.2983385281750195, "mar": 0.13415611520435852, "perclos": 0.14, "model_score": 0.23299744764965474}

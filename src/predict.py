@@ -28,6 +28,19 @@ label_map = {
     2: "High Fatigue"
 }
 
+FEATURE_NAMES = [
+    "typing_speed_kpm",
+    "backspace_rate",
+    "mean_key_interval_ms",
+    "std_key_interval_ms",
+    "mouse_distance_px",
+    "mouse_speed_px_per_sec",
+    "click_rate_per_min",
+    "mean_click_latency_ms",
+    "idle_time_sec",
+    "session_minutes",
+]
+
 # ---------------------------------------------------
 # MAIN FUNCTION
 # ---------------------------------------------------
@@ -45,7 +58,7 @@ def predict_fatigue(
     session_minutes
 ):
 
-    row = pd.DataFrame([{
+    values = {
         "typing_speed_kpm": typing_speed_kpm,
         "backspace_rate": backspace_rate,
         "mean_key_interval_ms": mean_key_interval_ms,
@@ -55,8 +68,9 @@ def predict_fatigue(
         "click_rate_per_min": click_rate_per_min,
         "mean_click_latency_ms": mean_click_latency_ms,
         "idle_time_sec": idle_time_sec,
-        "session_minutes": session_minutes
-    }])
+        "session_minutes": session_minutes,
+    }
+    row = pd.DataFrame([{name: values[name] for name in FEATURE_NAMES}])
 
     row_scaled = scaler.transform(row)
 

@@ -9,3 +9,4 @@ scikit-learn
 pandas
 joblib
 xgboost
+pynput

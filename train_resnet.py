@@ -28,9 +28,10 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader, Dataset, Subset, WeightedRandomSampler
 from torchvision import models, transforms
+
+from vision.dataset_split import grouped_split, source_key
 
 # ImageNet normalization (must match app.py when vision_model_config.json is present)
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
@@ -200,16 +201,19 @@ def main():
     )
 
     full = FatigueDataset("data/train", transform=None)
-    n = len(full)
-    indices = np.arange(n)
-    labels = np.array([full.samples[i][1] for i in range(n)], dtype=np.int64)
-    try:
-        tr_i, va_i = train_test_split(
-            indices, test_size=0.2, stratify=labels, random_state=42, shuffle=True
-        )
-    except ValueError:
-        tr_i, va_i = train_test_split(indices, test_size=0.2, random_state=42, shuffle=True)
-    tr_i, va_i = tr_i.tolist(), va_i.tolist()
+    rows = []
+    for path, label in full.samples:
+        cls = "drowsy" if int(label) == 1 else "notdrowsy"
+        rows.append({"path": path, "label": int(label), "source": source_key(Path(path), cls)})
+    grouped = grouped_split(rows, val_frac=0.2, test_frac=0.0, seed=42)
+    path_to_i = {full.samples[i][0]: i for i in range(len(full.samples))}
+    tr_i = [path_to_i[r["path"]] for r in grouped["train"]]
+    va_i = [path_to_i[r["path"]] for r in grouped["val"]]
+    print(
+        f"Grouped split (no aug leakage): train={len(tr_i)} val={len(va_i)} "
+        f"sources train={len({r['source'] for r in grouped['train']})} "
+        f"val={len({r['source'] for r in grouped['val']})}"
+    )
 
     tr_ds = FatigueDataset("data/train", train_tf)
     va_ds = FatigueDataset("data/train", val_tf)

@@ -1,0 +1,820 @@
+{
+  "label_map": {
+    "0": "Alert",
+    "1": "Mild Fatigue",
+    "2": "High Fatigue"
+  },
+  "model_classes": [
+    0,
+    1,
+    2
+  ],
+  "scaler_feature_names": [
+    "typing_speed_kpm",
+    "backspace_rate",
+    "mean_key_interval_ms",
+    "std_key_interval_ms",
+    "mouse_distance_px",
+    "mouse_speed_px_per_sec",
+    "click_rate_per_min",
+    "mean_click_latency_ms",
+    "idle_time_sec",
+    "session_minutes"
+  ],
+  "scaler_mean": {
+    "typing_speed_kpm": 64.71937775186353,
+    "backspace_rate": 0.12259005048173095,
+    "mean_key_interval_ms": 888.7158800309188,
+    "std_key_interval_ms": 60.04362229012341,
+    "mouse_distance_px": 6408.543459441224,
+    "mouse_speed_px_per_sec": 97.27301744657998,
+    "click_rate_per_min": 10.680645070269138,
+    "mean_click_latency_ms": 327.09912386260174,
+    "idle_time_sec": 8.25472390037394,
+    "session_minutes": 148.31666299101636
+  },
+  "scaler_scale": {
+    "typing_speed_kpm": 18.04811561288004,
+    "backspace_rate": 0.06801471502152887,
+    "mean_key_interval_ms": 238.53076453265223,
+    "std_key_interval_ms": 47.25178149739366,
+    "mouse_distance_px": 4024.662894589195,
+    "mouse_speed_px_per_sec": 53.19304684650616,
+    "click_rate_per_min": 5.4873309785061,
+    "mean_click_latency_ms": 205.65265913091727,
+    "idle_time_sec": 6.644356544561146,
+    "session_minutes": 122.14369806522022
+  },
+  "gain_importances": {
+    "idle_time_sec": 0.34870022535324097,
+    "session_minutes": 0.20051303505897522,
+    "mean_click_latency_ms": 0.14731551706790924,
+    "std_key_interval_ms": 0.07250922918319702,
+    "backspace_rate": 0.06542312353849411,
+    "click_rate_per_min": 0.05106191709637642,
+    "mouse_speed_px_per_sec": 0.04634306952357292,
+    "mean_key_interval_ms": 0.025296790525317192,
+    "mouse_distance_px": 0.023154612630605698,
+    "typing_speed_kpm": 0.01968250796198845
+  },
+  "training_rows": 5546,
+  "training_class_counts": {
+    "0": 1347,
+    "1": 2739,
+    "2": 1460
+  },
+  "feature_units_and_ranges": {
+    "typing_speed_kpm": {
+      "unit": "Monkeytype WPM stored under a kpm name (5 chars/word), not raw keys/min",
+      "overall": {
+        "min": 18.009262323545457,
+        "p50": 63.512440101203,
+        "max": 139.7872855132072,
+        "mean": 64.56086947339325
+      },
+      "by_class": {
+        "0": {
+          "n": 1347,
+          "min": 37.54411829379156,
+          "p05": 52.443964553358484,
+          "p25": 62.390286239195,
+          "p50": 70.9446664190963,
+          "p75": 80.39401358162038,
+          "p95": 95.43351234369014,
+          "max": 117.63512234518316,
+          "mean": 71.947450985807
+        },
+        "1": {
+          "n": 2739,
+          "min": 30.21094631108337,
+          "p05": 44.68871275324452,
+          "p25": 54.55976211505176,
+          "p50": 61.18090854812179,
+          "p75": 68.50771401535312,
+          "p95": 81.69444367870507,
+          "max": 118.6572156500078,
+          "mean": 62.086748713968646
+        },
+        "2": {
+          "n": 1460,
+          "min": 18.009262323545457,
+          "p05": 23.429843724406172,
+          "p25": 40.34444698571163,
+          "p50": 59.480884737220066,
+          "p75": 80.59189133028474,
+          "p95": 118.57324452791983,
+          "max": 139.7872855132072,
+          "mean": 62.3875074616417
+        }
+      }
+    },
+    "backspace_rate": {
+      "unit": "corrections / keys (training floor ~0.01)",
+      "overall": {
+        "min": 0.0085049431750872,
+        "p50": 0.11269717070059554,
+        "max": 0.4110384932548393,
+        "mean": 0.12237521791035227
+      },
+      "by_class": {
+        "0": {
+          "n": 1347,
+          "min": 0.0085121835861564,
+          "p05": 0.01,
+          "p25": 0.03057085321060385,
+          "p50": 0.0538076345843645,
+          "p75": 0.08116524478921644,
+          "p95": 0.18714213666890503,
+          "max": 0.3559434842721735,
+          "mean": 0.06734583736383422
+        },
+        "1": {
+          "n": 2739,
+          "min": 0.0085049431750872,
+          "p05": 0.046383060532500665,
+          "p25": 0.08317640306108384,
+          "p50": 0.1123290038221723,
+          "p75": 0.15557694086688,
+          "p95": 0.23947944652650532,
+          "max": 0.4110384932548393,
+          "mean": 0.124419842390292
+        },
+        "2": {
+          "n": 1460,
+          "min": 0.0085492484821298,
+          "p05": 0.09332814818050982,
+          "p25": 0.12564172784135966,
+          "p50": 0.16876889629119096,
+          "p75": 0.21447036988169468,
+          "p95": 0.2516877492050331,
+          "max": 0.2598994638959032,
+          "mean": 0.16930970362652004
+        }
+      }
+    },
+    "mean_key_interval_ms": {
+      "unit": "60000 / WPM (word-period ms), not mean inter-key ms",
+      "overall": {
+        "min": 300.5789262567262,
+        "p50": 901.1222844355367,
+        "max": 1943.9244395517603,
+        "mean": 889.0784256169002
+      },
+      "by_class": {
+        "0": {
+          "n": 1347,
+          "min": 427.7425876089388,
+          "p05": 636.090911590763,
+          "p25": 761.2075566009717,
+          "p50": 856.540715497445,
+          "p75": 961.9242828135533,
+          "p95": 1143.7863694459174,
+          "max": 1557.1567592225074,
+          "mean": 870.4869585570115
+        },
+        "1": {
+          "n": 2739,
+          "min": 549.821426359112,
+          "p05": 746.4609935989635,
+          "p25": 895.7492119193388,
+          "p50": 996.3888386812264,
+          "p75": 1114.0825379392902,
+          "p95": 1315.9458423871686,
+          "max": 1920.726039466737,
+          "mean": 1012.9276505443734
+        },
+        "2": {
+          "n": 1460,
+          "min": 300.5789262567262,
+          "p05": 330.84609277790685,
+          "p25": 477.05937980924296,
+          "p50": 663.5267350025101,
+          "p75": 837.7124521825816,
+          "p95": 1089.5988272873844,
+          "max": 1943.9244395517603,
+          "mean": 673.8864249684896
+        }
+      }
+    },
+    "std_key_interval_ms": {
+      "unit": "training: (100 - Monkeytype consistency) * noise; live: pstdev of burst inter-key ms",
+      "overall": {
+        "min": 8.810845502815791,
+        "p50": 42.01555243549814,
+        "max": 219.75958169529204,
+        "mean": 60.43997656397347
+      },
+      "by_class": {
+        "0": {
+          "n": 1347,
+          "min": 9.013604449717016,
+          "p05": 17.34900400415158,
+          "p25": 24.02455185355483,
+          "p50": 30.220933456851387,
+          "p75": 36.94603125609519,
+          "p95": 49.818601511726904,
+          "max": 69.40823754275942,
+          "mean": 31.286319759336976
+        },
+        "1": {
+          "n": 2739,
+          "min": 8.810845502815791,
+          "p05": 25.82905233021208,
+          "p25": 34.06503264233651,
+          "p50": 40.82143048885254,
+          "p75": 49.21164365267397,
+          "p95": 62.10923962443424,
+          "max": 78.97933064011437,
+          "mean": 41.891980033226666
+        },
+        "2": {
+          "n": 1460,
+          "min": 15.122235617632825,
+          "p05": 38.10994992602709,
+          "p25": 72.04629934673652,
+          "p50": 120.99194077318214,
+          "p75": 170.76155419154998,
+          "p95": 208.53577468059038,
+          "max": 219.75958169529204,
+          "mean": 122.13376986093297
+        }
+      }
+    },
+    "mouse_distance_px": {
+      "unit": "training: synthetic speed * 60 * 0.6\u20131.6; live: clustered speed * 60",
+      "overall": {
+        "min": 306.3159042460862,
+        "p50": 5562.872619899319,
+        "max": 23283.42637849472,
+        "mean": 6377.380260463127
+      },
+      "by_class": {
+        "0": {
+          "n": 1347,
+          "min": 1224.050035769988,
+          "p05": 3974.302501044847,
+          "p25": 6266.12594418234,
+          "p50": 9075.587941760044,
+          "p75": 12211.971242998443,
+          "p95": 16609.120032935945,
+          "max": 23283.42637849472,
+          "mean": 9480.486575584158
+        },
+        "1": {
+          "n": 2739,
+          "min": 1093.6100224823088,
+          "p05": 2435.07018591172,
+          "p25": 4343.016984326783,
+          "p50": 6341.856373743103,
+          "p75": 8923.559188371717,
+          "p95": 13278.68958058511,
+          "max": 18127.899914492948,
+          "mean": 6880.6803428772655
+        },
+        "2": {
+          "n": 1460,
+          "min": 306.3159042460862,
+          "p05": 564.3697345267907,
+          "p25": 1417.8637745856327,
+          "p50": 2415.1692364673495,
+          "p75": 3393.8959974902364,
+          "p95": 4534.245046814342,
+          "max": 17053.900553496173,
+          "mean": 2570.2411288190515
+        }
+      }
+    },
+    "mouse_speed_px_per_sec": {
+      "unit": "training: uniform draw by fatigue_label; live: clustered cursor px/s",
+      "overall": {
+        "min": 5.238248806608875,
+        "p50": 92.0990380971898,
+        "max": 248.71649075914345,
+        "mean": 97.19545874223661
+      },
+      "by_class": {
+        "0": {
+          "n": 1347,
+          "min": 31.470460331894216,
+          "p05": 69.04202532555321,
+          "p25": 104.12341730212957,
+          "p50": 143.9683918099718,
+          "p75": 183.76392391522276,
+          "p95": 218.4016813158315,
+          "max": 248.71649075914345,
+          "mean": 144.21720994677096
+        },
+        "1": {
+          "n": 2739,
+          "min": 31.93441632100528,
+          "p05": 42.75015550032472,
+          "p25": 70.41200350236201,
+          "p50": 103.32166382278491,
+          "p75": 134.76415365779445,
+          "p95": 166.48935491763964,
+          "max": 197.25744460485907,
+          "mean": 103.35654909340334
+        },
+        "2": {
+          "n": 1460,
+          "min": 5.238248806608875,
+          "p05": 9.12134641297985,
+          "p25": 22.358276247180058,
+          "p50": 39.721938537366675,
+          "p75": 58.84414049569703,
+          "p95": 76.70785787303288,
+          "max": 207.30137704578345,
+          "mean": 42.254687958432854
+        }
+      }
+    },
+    "click_rate_per_min": {
+      "unit": "training: uniform draw by fatigue_label; live: clicks / clustered click span * 60",
+      "overall": {
+        "min": 0.5288010616808543,
+        "p50": 9.8082237946324,
+        "max": 27.105280524833088,
+        "mean": 10.664432575096939
+      },
+      "by_class": {
+        "0": {
+          "n": 1347,
+          "min": 3.3659847690174307,
+          "p05": 7.742720076313368,
+          "p25": 11.179334505918247,
+          "p50": 15.671336276077527,
+          "p75": 19.662618428437817,
+          "p95": 23.75695781642397,
+          "max": 27.105280524833088,
+          "mean": 15.54639210802526
+        },
+        "1": {
+          "n": 2739,
+          "min": 3.505042433029477,
+          "p05": 4.675734901965746,
+          "p25": 7.506987424675706,
+          "p50": 10.823654473893756,
+          "p75": 14.166778246618136,
+          "p95": 17.6994795792682,
+          "max": 25.91998599859231,
+          "mean": 10.928404908955624
+        },
+        "2": {
+          "n": 1460,
+          "min": 0.5288010616808543,
+          "p05": 1.0839745412155362,
+          "p25": 3.100369203279281,
+          "p50": 5.613139646058631,
+          "p75": 7.892151130921082,
+          "p95": 9.832286128973468,
+          "max": 25.42116736950387,
+          "mean": 5.66510400434804
+        }
+      }
+    },
+    "mean_click_latency_ms": {
+      "unit": "training: synthetic reaction-time draw by label; live: mean move\u2192click \u2264420ms",
+      "overall": {
+        "min": 62.063197676292056,
+        "p50": 274.5025744602283,
+        "max": 949.983410267334,
+        "mean": 328.3278339470267
+      },
+      "by_class": {
+        "0": {
+          "n": 1347,
+          "min": 62.063197676292056,
+          "p05": 82.16452358234775,
+          "p25": 118.03525480116308,
+          "p50": 158.25353146181098,
+          "p75": 196.99893536000678,
+          "p95": 243.30214607887413,
+          "max": 649.4236529729124,
+          "mean": 160.590818784981
+        },
+        "1": {
+          "n": 2739,
+          "min": 79.75908590076841,
+          "p05": 132.51756439352172,
+          "p25": 192.09181585481215,
+          "p50": 271.51420970720613,
+          "p75": 343.1464117350183,
+          "p95": 414.3629209487646,
+          "max": 481.8479343559583,
+          "mean": 270.1665355274323
+        },
+        "2": {
+          "n": 1460,
+          "min": 71.91243367569983,
+          "p05": 287.73072667650644,
+          "p25": 425.0525807422418,
+          "p50": 591.9887690442364,
+          "p75": 761.4508596730946,
+          "p95": 919.2845315991353,
+          "max": 949.983410267334,
+          "mean": 592.194652984386
+        }
+      }
+    },
+    "idle_time_sec": {
+      "unit": "training: uniform draw by label; live: max in-window inter-event gap, capped 30s",
+      "overall": {
+        "min": 0.0351040733701754,
+        "p50": 6.107726774421268,
+        "max": 27.997763605869327,
+        "mean": 8.230107618029827
+      },
+      "by_class": {
+        "0": {
+          "n": 1347,
+          "min": 0.0351040733701754,
+          "p05": 0.3377457846127721,
+          "p25": 1.6282145401815196,
+          "p50": 3.1480428014905404,
+          "p75": 4.67354300714646,
+          "p95": 5.902835698229391,
+          "max": 10.794546009611077,
+          "mean": 3.1500144156607246
+        },
+        "1": {
+          "n": 2739,
+          "min": 0.2399609543269894,
+          "p05": 2.424629270922247,
+          "p25": 3.9891350793919758,
+          "p50": 5.981098555392158,
+          "p75": 7.839866088069835,
+          "p95": 9.607197688579026,
+          "max": 11.217080285584837,
+          "mean": 5.961897415634718
+        },
+        "2": {
+          "n": 1460,
+          "min": 0.1425666505255369,
+          "p05": 8.059573876035218,
+          "p25": 11.951779017925451,
+          "p50": 17.365654536817473,
+          "p75": 22.391049299170156,
+          "p95": 26.7828730641755,
+          "max": 27.997763605869327,
+          "mean": 17.172240007037626
+        }
+      }
+    },
+    "session_minutes": {
+      "unit": "training: uniform draw by label; live: wall-clock minutes since Start",
+      "overall": {
+        "min": 1.0092186460560904,
+        "p50": 115.14749873537815,
+        "max": 519.7056768964915,
+        "mean": 148.67398401093087
+      },
+      "by_class": {
+        "0": {
+          "n": 1347,
+          "min": 1.0092186460560904,
+          "p05": 6.041433912078397,
+          "p25": 28.034180374571,
+          "p50": 47.45819422726862,
+          "p75": 67.772489318901,
+          "p95": 88.53082067271204,
+          "max": 319.35111685738775,
+          "mean": 48.480254324681766
+        },
+        "1": {
+          "n": 2739,
+          "min": 5.097675485394186,
+          "p05": 28.28644545716649,
+          "p25": 66.33603983013752,
+          "p50": 113.83959104880525,
+          "p75": 162.97938512906,
+          "p95": 208.63358275930014,
+          "max": 249.79097826360965,
+          "mean": 115.50410684206034
+        },
+        "2": {
+          "n": 1460,
+          "min": 9.06853119280916,
+          "p05": 124.9919945085069,
+          "p25": 199.34150199583135,
+          "p50": 304.06318526216523,
+          "p75": 405.4486579691128,
+          "p95": 495.9054739909646,
+          "max": 519.7056768964915,
+          "mean": 303.34059185539246
+        }
+      }
+    }
+  },
+  "demo_predictions": {
+    "Focused Coder": {
+      "features": {
+        "typing_speed_kpm": 230.0,
+        "backspace_rate": 0.02,
+        "mean_key_interval_ms": 115.0,
+        "std_key_interval_ms": 28.0,
+        "mouse_distance_px": 9500.0,
+        "mouse_speed_px_per_sec": 160.0,
+        "click_rate_per_min": 16.0,
+        "mean_click_latency_ms": 90.0,
+        "idle_time_sec": 1.5,
+        "session_minutes": 40.0
+      },
+      "class_id": 0,
+      "label": "Alert",
+      "probabilities": {
+        "Alert": 99.48,
+        "Mild Fatigue": 0.07,
+        "High Fatigue": 0.44
+      }
+    },
+    "Mild Fatigue": {
+      "features": {
+        "typing_speed_kpm": 135.0,
+        "backspace_rate": 0.1,
+        "mean_key_interval_ms": 320.0,
+        "std_key_interval_ms": 120.0,
+        "mouse_distance_px": 4200.0,
+        "mouse_speed_px_per_sec": 75.0,
+        "click_rate_per_min": 9.0,
+        "mean_click_latency_ms": 340.0,
+        "idle_time_sec": 8.0,
+        "session_minutes": 150.0
+      },
+      "class_id": 1,
+      "label": "Mild Fatigue",
+      "probabilities": {
+        "Alert": 1.97,
+        "Mild Fatigue": 56.98,
+        "High Fatigue": 41.05
+      }
+    },
+    "High Fatigue": {
+      "features": {
+        "typing_speed_kpm": 72.0,
+        "backspace_rate": 0.17,
+        "mean_key_interval_ms": 510.0,
+        "std_key_interval_ms": 185.0,
+        "mouse_distance_px": 1800.0,
+        "mouse_speed_px_per_sec": 30.0,
+        "click_rate_per_min": 4.0,
+        "mean_click_latency_ms": 620.0,
+        "idle_time_sec": 15.0,
+        "session_minutes": 310.0
+      },
+      "class_id": 2,
+      "label": "High Fatigue",
+      "probabilities": {
+        "Alert": 0.0,
+        "Mild Fatigue": 0.0,
+        "High Fatigue": 100.0
+      }
+    }
+  },
+  "live_like_predictions": {
+    "short_active": {
+      "features": {
+        "typing_speed_kpm": 80.0,
+        "backspace_rate": 0.0,
+        "mean_key_interval_ms": 750.0,
+        "std_key_interval_ms": 30.0,
+        "mouse_distance_px": 7980.0,
+        "mouse_speed_px_per_sec": 133.0,
+        "click_rate_per_min": 20.0,
+        "mean_click_latency_ms": 80.0,
+        "idle_time_sec": 0.2,
+        "session_minutes": 0.6
+      },
+      "class_id": 0,
+      "label": "Alert",
+      "probabilities": {
+        "Alert": 98.59,
+        "Mild Fatigue": 0.47,
+        "High Fatigue": 0.94
+      }
+    },
+    "active_5min": {
+      "features": {
+        "typing_speed_kpm": 70.0,
+        "backspace_rate": 0.04,
+        "mean_key_interval_ms": 857.1428571428571,
+        "std_key_interval_ms": 40.0,
+        "mouse_distance_px": 7200.0,
+        "mouse_speed_px_per_sec": 120.0,
+        "click_rate_per_min": 12.0,
+        "mean_click_latency_ms": 140.0,
+        "idle_time_sec": 1.5,
+        "session_minutes": 5.0
+      },
+      "class_id": 0,
+      "label": "Alert",
+      "probabilities": {
+        "Alert": 99.0,
+        "Mild Fatigue": 0.68,
+        "High Fatigue": 0.31
+      }
+    }
+  },
+  "short_active_vs_training": [
+    {
+      "feature": "typing_speed_kpm",
+      "value": 80.0,
+      "unit": "Monkeytype WPM stored under a kpm name (5 chars/word), not raw keys/min",
+      "training_p50": 63.512440101203,
+      "training_min": 18.009262323545457,
+      "training_max": 139.7872855132072,
+      "overall_percentile": 83.75,
+      "class0_p50": 70.9446664190963,
+      "class1_p50": 61.18090854812179,
+      "class2_p50": 59.480884737220066
+    },
+    {
+      "feature": "backspace_rate",
+      "value": 0.0,
+      "unit": "corrections / keys (training floor ~0.01)",
+      "training_p50": 0.11269717070059554,
+      "training_min": 0.0085049431750872,
+      "training_max": 0.4110384932548393,
+      "overall_percentile": 0.0,
+      "class0_p50": 0.0538076345843645,
+      "class1_p50": 0.1123290038221723,
+      "class2_p50": 0.16876889629119096
+    },
+    {
+      "feature": "mean_key_interval_ms",
+      "value": 750.0,
+      "unit": "60000 / WPM (word-period ms), not mean inter-key ms",
+      "training_p50": 901.1222844355367,
+      "training_min": 300.5789262567262,
+      "training_max": 1943.9244395517603,
+      "overall_percentile": 24.54,
+      "class0_p50": 856.540715497445,
+      "class1_p50": 996.3888386812264,
+      "class2_p50": 663.5267350025101
+    },
+    {
+      "feature": "std_key_interval_ms",
+      "value": 30.0,
+      "unit": "training: (100 - Monkeytype consistency) * noise; live: pstdev of burst inter-key ms",
+      "training_p50": 42.01555243549814,
+      "training_min": 8.810845502815791,
+      "training_max": 219.75958169529204,
+      "overall_percentile": 18.55,
+      "class0_p50": 30.220933456851387,
+      "class1_p50": 40.82143048885254,
+      "class2_p50": 120.99194077318214
+    },
+    {
+      "feature": "mouse_distance_px",
+      "value": 7980.0,
+      "unit": "training: synthetic speed * 60 * 0.6\u20131.6; live: clustered speed * 60",
+      "training_p50": 5562.872619899319,
+      "training_min": 306.3159042460862,
+      "training_max": 23283.42637849472,
+      "overall_percentile": 69.15,
+      "class0_p50": 9075.587941760044,
+      "class1_p50": 6341.856373743103,
+      "class2_p50": 2415.1692364673495
+    },
+    {
+      "feature": "mouse_speed_px_per_sec",
+      "value": 133.0,
+      "unit": "training: uniform draw by fatigue_label; live: clustered cursor px/s",
+      "training_p50": 92.0990380971898,
+      "training_min": 5.238248806608875,
+      "training_max": 248.71649075914345,
+      "overall_percentile": 72.74,
+      "class0_p50": 143.9683918099718,
+      "class1_p50": 103.32166382278491,
+      "class2_p50": 39.721938537366675
+    },
+    {
+      "feature": "click_rate_per_min",
+      "value": 20.0,
+      "unit": "training: uniform draw by fatigue_label; live: clicks / clustered click span * 60",
+      "training_p50": 9.8082237946324,
+      "training_min": 0.5288010616808543,
+      "training_max": 27.105280524833088,
+      "overall_percentile": 94.18,
+      "class0_p50": 15.671336276077527,
+      "class1_p50": 10.823654473893756,
+      "class2_p50": 5.613139646058631
+    },
+    {
+      "feature": "mean_click_latency_ms",
+      "value": 80.0,
+      "unit": "training: synthetic reaction-time draw by label; live: mean move\u2192click \u2264420ms",
+      "training_p50": 274.5025744602283,
+      "training_min": 62.063197676292056,
+      "training_max": 949.983410267334,
+      "overall_percentile": 1.01,
+      "class0_p50": 158.25353146181098,
+      "class1_p50": 271.51420970720613,
+      "class2_p50": 591.9887690442364
+    },
+    {
+      "feature": "idle_time_sec",
+      "value": 0.2,
+      "unit": "training: uniform draw by label; live: max in-window inter-event gap, capped 30s",
+      "training_p50": 6.107726774421268,
+      "training_min": 0.0351040733701754,
+      "training_max": 27.997763605869327,
+      "overall_percentile": 0.41,
+      "class0_p50": 3.1480428014905404,
+      "class1_p50": 5.981098555392158,
+      "class2_p50": 17.365654536817473
+    },
+    {
+      "feature": "session_minutes",
+      "value": 0.6,
+      "unit": "training: uniform draw by label; live: wall-clock minutes since Start",
+      "training_p50": 115.14749873537815,
+      "training_min": 1.0092186460560904,
+      "training_max": 519.7056768964915,
+      "overall_percentile": 0.0,
+      "class0_p50": 47.45819422726862,
+      "class1_p50": 113.83959104880525,
+      "class2_p50": 304.06318526216523
+    }
+  ],
+  "live_like_training_overlap": {
+    "definition": "session_minutes<10 and idle_time_sec<2 and mean_click_latency_ms<=240",
+    "n": 50,
+    "n_total": 5546,
+    "labels": {
+      "0": 49,
+      "2": 1
+    },
+    "class1_session_lt_10_frac": 0.0007301935012778386,
+    "class1_idle_lt_2_frac": 0.01022270901788974,
+    "class2_latency_gt_420_frac": 0.7595890410958904
+  },
+  "short_active_swap_to_class1_median": {
+    "typing_speed_kpm": {
+      "label": "Alert",
+      "Alert": 99.44,
+      "Mild Fatigue": 0.21,
+      "High Fatigue": 0.35
+    },
+    "backspace_rate": {
+      "label": "Alert",
+      "Alert": 99.02,
+      "Mild Fatigue": 0.28,
+      "High Fatigue": 0.7
+    },
+    "mean_key_interval_ms": {
+      "label": "Alert",
+      "Alert": 96.84,
+      "Mild Fatigue": 0.97,
+      "High Fatigue": 2.2
+    },
+    "std_key_interval_ms": {
+      "label": "Alert",
+      "Alert": 99.17,
+      "Mild Fatigue": 0.5,
+      "High Fatigue": 0.33
+    },
+    "mouse_distance_px": {
+      "label": "Alert",
+      "Alert": 98.61,
+      "Mild Fatigue": 0.5,
+      "High Fatigue": 0.9
+    },
+    "mouse_speed_px_per_sec": {
+      "label": "Alert",
+      "Alert": 98.59,
+      "Mild Fatigue": 0.47,
+      "High Fatigue": 0.94
+    },
+    "click_rate_per_min": {
+      "label": "Alert",
+      "Alert": 98.61,
+      "Mild Fatigue": 0.81,
+      "High Fatigue": 0.58
+    },
+    "mean_click_latency_ms": {
+      "label": "Alert",
+      "Alert": 82.83,
+      "Mild Fatigue": 10.29,
+      "High Fatigue": 6.88
+    },
+    "idle_time_sec": {
+      "label": "Alert",
+      "Alert": 99.34,
+      "Mild Fatigue": 0.24,
+      "High Fatigue": 0.41
+    },
+    "session_minutes": {
+      "label": "Alert",
+      "Alert": 61.05,
+      "Mild Fatigue": 12.34,
+      "High Fatigue": 26.6
+    }
+  },
+  "notes": [
+    "Labels 0/1/2 were assigned from Monkeytype risk rules, then mouse/click/idle/session were sampled from the label.",
+    "XGBoost gain is dominated by those synthetic columns: idle_time_sec, session_minutes, mean_click_latency_ms.",
+    "A short live session with clustered motion and gesture latency sits in a region that is almost only class 0 in training.",
+    "Readiness withholds prediction until keys/mouse/clicks/latency exist; it does not remap classes.",
+    "Demo sliders can set long session_minutes, high idle, and >420ms latency that live capture rarely produces."
+  ]
+}

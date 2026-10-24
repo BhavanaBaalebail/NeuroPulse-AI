@@ -1,1 +1,8 @@
 .env
+data/raw_external/
+data/derived/
+data/eye_calibration.json
+__pycache__/
+*.pyc
+.DS_Store
+

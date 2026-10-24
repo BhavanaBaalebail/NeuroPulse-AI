@@ -54,8 +54,10 @@ def main():
     name = sess.get_inputs()[0].name
     out = sess.run(None, {name: dummy.numpy()})[0]
     ref = model(dummy).detach().numpy()
-    if np.allclose(out, ref, atol=2e-2):
-        print("ONNX vs PyTorch: OK")
+    max_abs = float(np.max(np.abs(out - ref)))
+    if not np.allclose(out, ref, atol=1e-4):
+        raise SystemExit(f"ONNX vs PyTorch disagreement max_abs={max_abs}")
+    print(f"ONNX vs PyTorch: OK (max_abs={max_abs:.2e})")
     print("Keep vision_model_config.json next to fatigue_model.onnx for app.py preprocessing.")
 
 

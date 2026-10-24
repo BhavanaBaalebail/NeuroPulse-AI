@@ -1,0 +1,90 @@
+{
+  "weights": "/Users/bhavanabaalebail/Documents/innovitus1/best_model_resnet.pth",
+  "note": "Holdout is source-grouped. This checkpoint was trained with a leaky file-level split, so these numbers can be pessimistic or still optimistic depending on leftover correlation. They are not a webcam field trial.",
+  "splits": {
+    "val": {
+      "accuracy": 0.9080459770114943,
+      "confusion_matrix": [
+        [
+          43,
+          0
+        ],
+        [
+          8,
+          36
+        ]
+      ],
+      "false_positive_rate_alert": 0.0,
+      "per_class": {
+        "notdrowsy (0)": {
+          "precision": 0.8431372549019608,
+          "recall": 1.0,
+          "f1-score": 0.9148936170212766,
+          "support": 43.0
+        },
+        "drowsy (1)": {
+          "precision": 1.0,
+          "recall": 0.8181818181818182,
+          "f1-score": 0.9,
+          "support": 44.0
+        },
+        "accuracy": 0.9080459770114943,
+        "macro avg": {
+          "precision": 0.9215686274509804,
+          "recall": 0.9090909090909092,
+          "f1-score": 0.9074468085106383,
+          "support": 87.0
+        },
+        "weighted avg": {
+          "precision": 0.9224701374802794,
+          "recall": 0.9080459770114943,
+          "f1-score": 0.9073612130105161,
+          "support": 87.0
+        }
+      },
+      "n": 87
+    },
+    "test": {
+      "accuracy": 0.896551724137931,
+      "confusion_matrix": [
+        [
+          43,
+          0
+        ],
+        [
+          9,
+          35
+        ]
+      ],
+      "false_positive_rate_alert": 0.0,
+      "per_class": {
+        "notdrowsy (0)": {
+          "precision": 0.8269230769230769,
+          "recall": 1.0,
+          "f1-score": 0.9052631578947369,
+          "support": 43.0
+        },
+        "drowsy (1)": {
+          "precision": 1.0,
+          "recall": 0.7954545454545454,
+          "f1-score": 0.8860759493670886,
+          "support": 44.0
+        },
+        "accuracy": 0.896551724137931,
+        "macro avg": {
+          "precision": 0.9134615384615384,
+          "recall": 0.8977272727272727,
+          "f1-score": 0.8956695536309127,
+          "support": 87.0
+        },
+        "weighted avg": {
+          "precision": 0.9144562334217506,
+          "recall": 0.896551724137931,
+          "f1-score": 0.8955592823175352,
+          "support": 87.0
+        }
+      },
+      "n": 87
+    }
+  }
+}

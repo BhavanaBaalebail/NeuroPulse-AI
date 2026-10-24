@@ -1,0 +1,201 @@
+{
+  "backbone": "mobilenet_v3_small",
+  "input_size": 160,
+  "mean": [
+    0.485,
+    0.456,
+    0.406
+  ],
+  "std": [
+    0.229,
+    0.224,
+    0.225
+  ],
+  "class_names": [
+    "notdrowsy",
+    "drowsy"
+  ],
+  "onnx_drowsy_class_index": 1,
+  "checkpoint": "/Users/bhavanabaalebail/Documents/innovitus1/models/vision/best_mobilenet_v3_small.pth",
+  "val_best_acc": 0.5057471264367817,
+  "test": {
+    "accuracy": 0.5057471264367817,
+    "confusion_matrix": [
+      [
+        0,
+        43
+      ],
+      [
+        0,
+        44
+      ]
+    ],
+    "false_positive_rate_neg_class": 1.0,
+    "per_class": {
+      "neg (0)": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 43.0
+      },
+      "pos (1)": {
+        "precision": 0.5057471264367817,
+        "recall": 1.0,
+        "f1-score": 0.6717557251908397,
+        "support": 44.0
+      },
+      "accuracy": 0.5057471264367817,
+      "macro avg": {
+        "precision": 0.25287356321839083,
+        "recall": 0.5,
+        "f1-score": 0.33587786259541985,
+        "support": 87.0
+      },
+      "weighted avg": {
+        "precision": 0.255780155899062,
+        "recall": 0.5057471264367817,
+        "f1-score": 0.3397385276827235,
+        "support": 87.0
+      }
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_acc": 0.4897959183673469,
+      "val": {
+        "accuracy": 0.5057471264367817,
+        "confusion_matrix": [
+          [
+            0,
+            43
+          ],
+          [
+            0,
+            44
+          ]
+        ],
+        "false_positive_rate_neg_class": 1.0,
+        "per_class": {
+          "neg (0)": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1-score": 0.0,
+            "support": 43.0
+          },
+          "pos (1)": {
+            "precision": 0.5057471264367817,
+            "recall": 1.0,
+            "f1-score": 0.6717557251908397,
+            "support": 44.0
+          },
+          "accuracy": 0.5057471264367817,
+          "macro avg": {
+            "precision": 0.25287356321839083,
+            "recall": 0.5,
+            "f1-score": 0.33587786259541985,
+            "support": 87.0
+          },
+          "weighted avg": {
+            "precision": 0.255780155899062,
+            "recall": 0.5057471264367817,
+            "f1-score": 0.3397385276827235,
+            "support": 87.0
+          }
+        }
+      }
+    },
+    {
+      "epoch": 2,
+      "train_acc": 0.5586734693877551,
+      "val": {
+        "accuracy": 0.5057471264367817,
+        "confusion_matrix": [
+          [
+            0,
+            43
+          ],
+          [
+            0,
+            44
+          ]
+        ],
+        "false_positive_rate_neg_class": 1.0,
+        "per_class": {
+          "neg (0)": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1-score": 0.0,
+            "support": 43.0
+          },
+          "pos (1)": {
+            "precision": 0.5057471264367817,
+            "recall": 1.0,
+            "f1-score": 0.6717557251908397,
+            "support": 44.0
+          },
+          "accuracy": 0.5057471264367817,
+          "macro avg": {
+            "precision": 0.25287356321839083,
+            "recall": 0.5,
+            "f1-score": 0.33587786259541985,
+            "support": 87.0
+          },
+          "weighted avg": {
+            "precision": 0.255780155899062,
+            "recall": 0.5057471264367817,
+            "f1-score": 0.3397385276827235,
+            "support": 87.0
+          }
+        }
+      }
+    },
+    {
+      "epoch": 3,
+      "train_acc": 0.6658163265306123,
+      "val": {
+        "accuracy": 0.5057471264367817,
+        "confusion_matrix": [
+          [
+            0,
+            43
+          ],
+          [
+            0,
+            44
+          ]
+        ],
+        "false_positive_rate_neg_class": 1.0,
+        "per_class": {
+          "neg (0)": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1-score": 0.0,
+            "support": 43.0
+          },
+          "pos (1)": {
+            "precision": 0.5057471264367817,
+            "recall": 1.0,
+            "f1-score": 0.6717557251908397,
+            "support": 44.0
+          },
+          "accuracy": 0.5057471264367817,
+          "macro avg": {
+            "precision": 0.25287356321839083,
+            "recall": 0.5,
+            "f1-score": 0.33587786259541985,
+            "support": 87.0
+          },
+          "weighted avg": {
+            "precision": 0.255780155899062,
+            "recall": 0.5057471264367817,
+            "f1-score": 0.3397385276827235,
+            "support": 87.0
+          }
+        }
+      }
+    }
+  ],
+  "task": "face_drowsy_notdrowsy",
+  "domain_note": "Labels are folder-level drowsy/notdrowsy, not verified eye-closed labels."
+}

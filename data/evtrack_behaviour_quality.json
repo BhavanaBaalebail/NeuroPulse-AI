@@ -1,0 +1,224 @@
+{
+  "inspection": {
+    "info_schema": [
+      "_id",
+      "user",
+      "session_id",
+      "date",
+      "ua",
+      "screen",
+      "screenh",
+      "windoww",
+      "windowh",
+      "documentw",
+      "documenth",
+      "date_parsed"
+    ],
+    "track_schema": [
+      "_id",
+      "cursor",
+      "timestamp",
+      "xpos",
+      "ypos",
+      "key",
+      "event",
+      "user",
+      "session_id",
+      "timestamp_parsed"
+    ],
+    "info_separator_note": "Tab-separated despite .csv extension",
+    "track_separator_note": "Tab-separated despite .csv extension",
+    "info_rows": 347,
+    "track_rows": 142691,
+    "info_nulls": {
+      "_id": 0,
+      "user": 0,
+      "session_id": 0,
+      "date": 0,
+      "ua": 0,
+      "screen": 0,
+      "screenh": 0,
+      "windoww": 0,
+      "windowh": 0,
+      "documentw": 0,
+      "documenth": 0
+    },
+    "track_nulls": {
+      "_id": 0,
+      "cursor": 0,
+      "timestamp": 0,
+      "xpos": 0,
+      "ypos": 0,
+      "key": 0,
+      "event": 0,
+      "user": 0,
+      "session_id": 0
+    },
+    "info_unparsed_dates": 0,
+    "track_unparsed_timestamps": 0,
+    "info_timestamp_format": "YYYY-MM-DD HH:MM:SS.ffffff (microseconds)",
+    "track_timestamp_format": "YYYY-MM-DD HH:MM:SS.mmm (milliseconds)",
+    "info_date_range": [
+      "2020-02-17 09:35:49.089692",
+      "2020-02-24 22:06:52.072089"
+    ],
+    "track_timestamp_range": [
+      "2020-02-17 08:35:44.485000",
+      "2020-02-25 09:05:46.432000"
+    ],
+    "event_types": {
+      "keydown": 57544,
+      "keyup": 55927,
+      "mousemove": 18270,
+      "mouseout": 6217,
+      "mouseover": 1698,
+      "mousedown": 1362,
+      "mousewheel": 1133,
+      "mouseup": 540
+    },
+    "unique_users": [
+      "Alluserspreauth",
+      "User1",
+      "User10",
+      "User11",
+      "User2",
+      "User3",
+      "User4",
+      "User5",
+      "User6",
+      "User7",
+      "User8",
+      "User9"
+    ],
+    "n_users": 12,
+    "n_info_sessions": 347,
+    "n_track_sessions": 195,
+    "sessions_in_info_without_track": 152,
+    "sessions_in_track_without_info": 0,
+    "intra_session_gap_seconds": {
+      "n": 142496,
+      "median": 0.086,
+      "p95": 0.741,
+      "max": 239543.994,
+      "frac_gt_2s": 0.02282871098136088,
+      "frac_gt_10s": 0.007445823040646755,
+      "frac_gt_60s": 0.0034878172018863686,
+      "frac_gt_300s": 0.0017403997305187515
+    },
+    "info_minus_track_start_seconds": {
+      "median": 3604.386439,
+      "note": "INFO.date is ~1 hour after the first TRACK timestamp for matched sessions; event times use TRACK."
+    },
+    "keydown_n": 57544,
+    "backspace_keycode_8_n": 16,
+    "keydown_key_0_n": 7400,
+    "other_delete_like_keycodes_not_counted_as_backspace": {
+      "14": 48,
+      "42": 54,
+      "67": 168,
+      "111": 1
+    },
+    "mousedown_n": 1362,
+    "mouseup_n": 540,
+    "mousemove_n": 18270,
+    "cursor_unique": 1
+  },
+  "window_count": 1280,
+  "window_seconds": 60.0,
+  "session_split_gap_s": 300.0,
+  "anonymisation": "SHA-256 prefix of salt|value; original user names and session ids omitted from the CSV.",
+  "feature_availability": {
+    "typing_speed_kpm": {
+      "unit": "WPM from keydown count / 5 chars-per-word over burst typing seconds (live logger convention). Not keys/min.",
+      "windows_with_value": 644,
+      "windows_total": 1280,
+      "frac_available": 0.503125
+    },
+    "backspace_rate": {
+      "unit": "Backspace keydowns (keyCode 8) / keydowns in the window.",
+      "windows_with_value": 685,
+      "windows_total": 1280,
+      "frac_available": 0.53515625
+    },
+    "mean_key_interval_ms": {
+      "unit": "60000 / typing_speed_kpm, matching live/training name. Not the raw mean inter-keydown ms.",
+      "windows_with_value": 644,
+      "windows_total": 1280,
+      "frac_available": 0.503125
+    },
+    "std_key_interval_ms": {
+      "unit": "pstdev of inter-keydown gaps <= TYPING_PAUSE_MS. Training used a Monkeytype consistency proxy.",
+      "windows_with_value": 629,
+      "windows_total": 1280,
+      "frac_available": 0.49140625
+    },
+    "mouse_distance_px": {
+      "unit": "clustered mouse speed * 60 (one-minute equivalent), matching live snapshot, not raw path pixels.",
+      "windows_with_value": 902,
+      "windows_total": 1280,
+      "frac_available": 0.7046875
+    },
+    "mouse_speed_px_per_sec": {
+      "unit": "significant mousemove path / clustered active seconds (gaps <= 0.5s, step >= 3px).",
+      "windows_with_value": 902,
+      "windows_total": 1280,
+      "frac_available": 0.7046875
+    },
+    "click_rate_per_min": {
+      "unit": "mousedown count * 60 / clustered click-active seconds (gaps <= 10s).",
+      "windows_with_value": 266,
+      "windows_total": 1280,
+      "frac_available": 0.2078125
+    },
+    "mean_click_latency_ms": {
+      "unit": "mean mousemove\u2192mousedown interval among gestures <= 420ms. NaN if none.",
+      "windows_with_value": 486,
+      "windows_total": 1280,
+      "frac_available": 0.3796875
+    },
+    "idle_time_sec": {
+      "unit": "max in-window gap among keydown/mousemove/mousedown, capped at 30s.",
+      "windows_with_value": 1132,
+      "windows_total": 1280,
+      "frac_available": 0.884375
+    },
+    "session_minutes": {
+      "unit": "minutes from episode start to window end (wall clock), not a rate.",
+      "windows_with_value": 1280,
+      "windows_total": 1280,
+      "frac_available": 1.0
+    }
+  },
+  "definition_mismatches_vs_hybrid_training": [
+    "typing_speed_kpm stores Monkeytype-style WPM, not keys per minute; EVTRACK uses keydown count.",
+    "mean_key_interval_ms is 60000/WPM (live/training name), not the arithmetic mean of inter-key ms.",
+    "std_key_interval_ms is burst inter-keydown pstdev; the hybrid training set used (100-consistency)\u00d7noise.",
+    "mouse/click/idle/session in behavior_final_dataset.csv were sampled from a synthetic fatigue label, not telemetry.",
+    "mean_click_latency_ms here is mousemove\u2192mousedown \u2264420ms. Training used a label-conditioned uniform draw.",
+    "Backspace is DOM keyCode 8 only. Codes 14/42/67/111 appear in TRACK but are not counted as Backspace.",
+    "keydown key=0 is retained as an anonymous keystroke (no character) and is not Backspace.",
+    "Clicks use mousedown. mouseup is fewer (incomplete pairs) and is not counted as a second click.",
+    "mouseover/mouseout/mousewheel are not used for distance, click rate, or idle.",
+    "INFO.ua / screen sizes are not behaviour features and are not copied to the window CSV.",
+    "No fatigue_label column is written."
+  ],
+  "unavailable": {
+    "typed_text": "Never present: TRACK.key is numeric keyCode, not a character. Not stored.",
+    "fatigue_label": "Not in EVTRACKINFO or EVTRACKTRACK. Not inferred.",
+    "true_reaction_time": "No stimulus timestamps. Click latency is last mousemove\u2192mousedown only.",
+    "monkeytype_wpm_acc_consistency": "Not in these files."
+  },
+  "feature_order": [
+    "typing_speed_kpm",
+    "backspace_rate",
+    "mean_key_interval_ms",
+    "std_key_interval_ms",
+    "mouse_distance_px",
+    "mouse_speed_px_per_sec",
+    "click_rate_per_min",
+    "mean_click_latency_ms",
+    "idle_time_sec",
+    "session_minutes"
+  ],
+  "output_csv": "/Users/bhavanabaalebail/Documents/innovitus1/data/evtrack_behaviour_windows.csv"
+}

@@ -1,0 +1,159 @@
+{
+  "disclaimer": "Labels are heuristic proxies from relative keyboard/mouse deviations, not actual fatigue ground truth. They must not be used as accuracy claims or as a substitute for labelled human state.",
+  "label_version": "heuristic_v1",
+  "source_csv": "/Users/bhavanabaalebail/Documents/innovitus1/data/evtrack_behaviour_windows.csv",
+  "n_windows": 1280,
+  "windows_discarded": 0,
+  "label_distribution": {
+    "Uncertain": 773,
+    "Alert": 317,
+    "Mild Fatigue": 136,
+    "High Fatigue": 54
+  },
+  "missing_feature_counts": {
+    "typing_speed_kpm": 636,
+    "backspace_rate": 595,
+    "mean_key_interval_ms": 636,
+    "std_key_interval_ms": 651,
+    "mouse_distance_px": 378,
+    "mouse_speed_px_per_sec": 378,
+    "click_rate_per_min": 1014,
+    "mean_click_latency_ms": 794,
+    "idle_time_sec": 148,
+    "session_minutes": 0
+  },
+  "per_user": {
+    "09df0b3f3fdd": {
+      "windows": 140,
+      "labels": {
+        "Uncertain": 101,
+        "Alert": 29,
+        "Mild Fatigue": 7,
+        "High Fatigue": 3
+      }
+    },
+    "283aa72180a9": {
+      "windows": 142,
+      "labels": {
+        "Uncertain": 87,
+        "Alert": 30,
+        "Mild Fatigue": 15,
+        "High Fatigue": 10
+      }
+    },
+    "2b92e06581f9": {
+      "windows": 23,
+      "labels": {
+        "Uncertain": 13,
+        "Alert": 10
+      }
+    },
+    "30ff3f3f7a1a": {
+      "windows": 73,
+      "labels": {
+        "Uncertain": 36,
+        "Alert": 22,
+        "Mild Fatigue": 11,
+        "High Fatigue": 4
+      }
+    },
+    "4cd21207206a": {
+      "windows": 63,
+      "labels": {
+        "Uncertain": 48,
+        "Alert": 10,
+        "Mild Fatigue": 4,
+        "High Fatigue": 1
+      }
+    },
+    "5961b24498f7": {
+      "windows": 185,
+      "labels": {
+        "Uncertain": 105,
+        "Alert": 46,
+        "Mild Fatigue": 26,
+        "High Fatigue": 8
+      }
+    },
+    "5bf8c5be01f5": {
+      "windows": 86,
+      "labels": {
+        "Uncertain": 62,
+        "Alert": 14,
+        "Mild Fatigue": 8,
+        "High Fatigue": 2
+      }
+    },
+    "71847e417183": {
+      "windows": 60,
+      "labels": {
+        "Uncertain": 31,
+        "Alert": 22,
+        "High Fatigue": 4,
+        "Mild Fatigue": 3
+      }
+    },
+    "7aaba93c0a5e": {
+      "windows": 209,
+      "labels": {
+        "Uncertain": 118,
+        "Alert": 60,
+        "Mild Fatigue": 20,
+        "High Fatigue": 11
+      }
+    },
+    "8624fdaac2a1": {
+      "windows": 19,
+      "labels": {
+        "Alert": 7,
+        "Mild Fatigue": 7,
+        "Uncertain": 4,
+        "High Fatigue": 1
+      }
+    },
+    "9869a68bd470": {
+      "windows": 149,
+      "labels": {
+        "Uncertain": 84,
+        "Alert": 37,
+        "Mild Fatigue": 25,
+        "High Fatigue": 3
+      }
+    },
+    "cd40735be499": {
+      "windows": 131,
+      "labels": {
+        "Uncertain": 84,
+        "Alert": 30,
+        "Mild Fatigue": 10,
+        "High Fatigue": 7
+      }
+    }
+  },
+  "per_session": {
+    "n_sessions": 195,
+    "sessions_with_high_fatigue": 35,
+    "sessions_with_only_uncertain": 67,
+    "label_totals_across_sessions": {
+      "Alert": 317,
+      "High Fatigue": 54,
+      "Mild Fatigue": 136,
+      "Uncertain": 773
+    }
+  },
+  "rules": {
+    "baseline": "leave-one-out median per user; channel unused if fewer than 5 other windows have that feature",
+    "min_evidence_channels": 2,
+    "idle_time_sec": "never votes",
+    "session_minutes": "never votes",
+    "missing_values": "left as NA; not replaced with zero",
+    "mean_key_interval_ms": "not a vote (duplicate of typing_speed_kpm)",
+    "mouse_distance_px": "not a vote (duplicate of mouse_speed_px_per_sec)",
+    "typing_speed_ignored_if": "n_keydown < 10 or WPM > 200.0 (key-repeat)",
+    "high_fatigue": "two or more strong deviations",
+    "mild_fatigue": "two or more deviations, fewer than two strong",
+    "alert": "at least two typical channels and no fatigue votes",
+    "uncertain": "otherwise, including a single deviation"
+  },
+  "output_csv": "/Users/bhavanabaalebail/Documents/innovitus1/data/evtrack_behaviour_labelled.csv"
+}

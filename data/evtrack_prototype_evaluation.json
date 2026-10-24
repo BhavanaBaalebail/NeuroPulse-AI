@@ -1,0 +1,125 @@
+{
+  "disclaimer": "These metrics compare the prototype to heuristic_v1 labels only. They do NOT measure real fatigue-detection accuracy, clinical validity, or improvement of the production NeuroPulse XGBoost model.",
+  "label_version": "heuristic_v1",
+  "n_windows_labelled": 507,
+  "class_counts_all": {
+    "Alert": 317,
+    "Mild Fatigue": 136,
+    "High Fatigue": 54
+  },
+  "features": [
+    "typing_speed_kpm",
+    "backspace_rate",
+    "mean_key_interval_ms",
+    "std_key_interval_ms",
+    "mouse_distance_px",
+    "mouse_speed_px_per_sec",
+    "click_rate_per_min",
+    "mean_click_latency_ms",
+    "idle_time_sec",
+    "session_minutes"
+  ],
+  "missing_counts": {
+    "typing_speed_kpm": 92,
+    "backspace_rate": 82,
+    "mean_key_interval_ms": 92,
+    "std_key_interval_ms": 99,
+    "mouse_distance_px": 85,
+    "mouse_speed_px_per_sec": 85,
+    "click_rate_per_min": 347,
+    "mean_click_latency_ms": 211,
+    "idle_time_sec": 0,
+    "session_minutes": 0
+  },
+  "preprocessing": "SimpleImputer(strategy=median) and StandardScaler fitted on training users only. Missing values are not filled with zero.",
+  "split": {
+    "found": true,
+    "split_index": 2,
+    "random_state": 42,
+    "test_size": 0.25,
+    "train_users": [
+      "09df0b3f3fdd",
+      "283aa72180a9",
+      "2b92e06581f9",
+      "30ff3f3f7a1a",
+      "5961b24498f7",
+      "5bf8c5be01f5",
+      "7aaba93c0a5e",
+      "8624fdaac2a1",
+      "cd40735be499"
+    ],
+    "test_users": [
+      "4cd21207206a",
+      "71847e417183",
+      "9869a68bd470"
+    ],
+    "limitation": "High Fatigue test n=8 is small; High precision/recall are unstable. A 12-user grouped holdout cannot support a strong 3-class generalisation claim."
+  },
+  "evaluation_target": "heuristic_v1 labels (not human fatigue ratings)",
+  "class_counts_train": {
+    "Alert": 248,
+    "Mild Fatigue": 104,
+    "High Fatigue": 46
+  },
+  "class_counts_test": {
+    "Alert": 69,
+    "Mild Fatigue": 32,
+    "High Fatigue": 8
+  },
+  "imputer_strategy": "median",
+  "imputer_statistics_are_zero": [
+    "backspace_rate"
+  ],
+  "metrics": {
+    "per_class": {
+      "Alert": {
+        "precision": 1.0,
+        "recall": 0.8260869565217391,
+        "f1": 0.9047619047619048,
+        "support": 69
+      },
+      "Mild Fatigue": {
+        "precision": 0.631578947368421,
+        "recall": 0.75,
+        "f1": 0.6857142857142857,
+        "support": 32
+      },
+      "High Fatigue": {
+        "precision": 0.42857142857142855,
+        "recall": 0.75,
+        "f1": 0.5454545454545454,
+        "support": 8
+      }
+    },
+    "confusion_matrix": {
+      "order": [
+        "Alert",
+        "Mild Fatigue",
+        "High Fatigue"
+      ],
+      "rows_true_cols_pred": [
+        [
+          57,
+          12,
+          0
+        ],
+        [
+          0,
+          24,
+          8
+        ],
+        [
+          0,
+          2,
+          6
+        ]
+      ]
+    },
+    "balanced_accuracy": 0.7753623188405797,
+    "classification_report": "              precision    recall  f1-score   support\n\n       Alert       1.00      0.83      0.90        69\nMild Fatigue       0.63      0.75      0.69        32\nHigh Fatigue       0.43      0.75      0.55         8\n\n    accuracy                           0.80       109\n   macro avg       0.69      0.78      0.71       109\nweighted avg       0.85      0.80      0.81       109\n"
+  },
+  "trained": true,
+  "model_path": "/Users/bhavanabaalebail/Documents/innovitus1/models/behaviour_prototype_heuristic_v1.pkl",
+  "report_json": "/Users/bhavanabaalebail/Documents/innovitus1/data/evtrack_prototype_evaluation.json",
+  "report_md": "/Users/bhavanabaalebail/Documents/innovitus1/data/evtrack_prototype_evaluation.md"
+}
