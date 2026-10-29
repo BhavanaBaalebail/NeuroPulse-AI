@@ -75,6 +75,48 @@ class EyeStateTests(unittest.TestCase):
         obs = self.tr.update(None, None, None, True, timestamp=t)
         self.assertEqual(obs.eye_state, "UNKNOWN")
 
+    def test_experimental_score_only_assists_ambiguous_ear(self):
+        t = self._calibrate()
+        midpoint = (self.tr.open_ear_baseline * self.cfg.closed_ratio + self.tr.open_ear_baseline * self.cfg.open_ratio) / 2
+        obs = self.tr.update(midpoint, midpoint, midpoint, True, timestamp=t, eye_model_closed_probability=0.99)
+        self.assertEqual(obs.eye_state, "CLOSED")
+        self.assertTrue(obs.eye_model_assisted)
+
+    def test_experimental_score_does_not_change_clear_open_or_closed_ear(self):
+        t = self._calibrate()
+        open_obs = self.tr.update(0.34, 0.34, 0.34, True, timestamp=t, eye_model_closed_probability=0.99)
+        self.assertEqual(open_obs.eye_state, "OPEN")
+        self.assertFalse(open_obs.eye_model_assisted)
+        closed_obs = self.tr.update(0.12, 0.12, 0.12, True, timestamp=t + 0.1, eye_model_closed_probability=0.0)
+        self.assertEqual(closed_obs.eye_state, "CLOSED")
+        self.assertFalse(closed_obs.eye_model_assisted)
+
+    def test_experimental_score_does_not_change_missing_face_to_closed(self):
+        t = self._calibrate()
+        obs = self.tr.update(0.12, 0.12, 0.12, False, timestamp=t, eye_model_closed_probability=0.99)
+        self.assertEqual(obs.eye_state, "UNKNOWN")
+        self.assertFalse(obs.eye_model_assisted)
+
+    def test_experimental_assisted_blink_and_sustained_closure_remain_temporal(self):
+        t = self._calibrate()
+        midpoint = (self.tr.open_ear_baseline * self.cfg.closed_ratio + self.tr.open_ear_baseline * self.cfg.open_ratio) / 2
+        blink = self.tr.update(midpoint, midpoint, midpoint, True, timestamp=t, eye_model_closed_probability=0.99)
+        self.assertEqual(blink.eye_state, "CLOSED")
+        reopened = self.tr.update(0.34, 0.34, 0.34, True, timestamp=t + 0.2, eye_model_closed_probability=0.0)
+        self.assertEqual(reopened.event, "blink")
+        self.assertEqual(reopened.eye_state, "OPEN")
+
+        start = t + 0.3
+        sustained = None
+        for i in range(18):
+            sustained = self.tr.update(
+                midpoint, midpoint, midpoint, True,
+                timestamp=start + i * 0.1,
+                eye_model_closed_probability=0.99,
+            )
+        self.assertEqual(sustained.event, "prolonged_closure")
+        self.assertGreaterEqual(sustained.closed_duration_s, self.cfg.prolonged_closure_s)
+
 
 if __name__ == "__main__":
     unittest.main()

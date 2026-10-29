@@ -31,6 +31,11 @@ from vision.geometry import (
 from vision.mouth_state import MouthStateTracker, YawnClassifierInterface
 from vision.onnx_model import OnnxFaceScorer
 
+try:
+    from vision.eye_model import OnnxEyeScorer
+except ImportError:  # Experimental scorer is optional; baseline vision must load.
+    OnnxEyeScorer = None
+
 logger = logging.getLogger("neuropulse.vision")
 
 _APP_DIR = Path(__file__).resolve().parent.parent
@@ -79,6 +84,28 @@ class FatigueDetector:
         config_path: Path | None = None,
     ):
         self.config = config or load_vision_config(config_path or (_APP_DIR / "vision_runtime_config.json"))
+        experiment_env = os.environ.get("NEUROPULSE_EYE_MODEL_EXPERIMENT")
+        self.eye_model_experiment_enabled = (
+            experiment_env.strip().lower() in {"1", "true", "yes", "on"}
+            if experiment_env is not None
+            else self.config.eye_model_experimental_enabled
+        )
+        self.eye_model = (
+            OnnxEyeScorer(
+                _APP_DIR / "models" / "vision" / "eye_resnet18_candidate.onnx",
+                _APP_DIR / "models" / "vision" / "best_resnet18_eyes_transfer.json",
+                enabled=self.eye_model_experiment_enabled,
+                allow_experimental=self.eye_model_experiment_enabled,
+            )
+            if OnnxEyeScorer is not None
+            else None
+        )
+        if self.eye_model_experiment_enabled:
+            logger.warning(
+                "Experimental eye-crop model enabled; output is advisory and not deployment-approved (available=%s, error=%s)",
+                bool(self.eye_model and self.eye_model.available),
+                None if self.eye_model is None else self.eye_model.last_error,
+            )
         self.face_cascade = cv2.CascadeClassifier(
             cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
         )
@@ -181,12 +208,36 @@ class FatigueDetector:
         t = np.clip((std - 8.0) / 28.0, 0.0, 1.0)
         return float(np.clip(0.08 + 0.22 * t, 0.05, 0.38))
 
+    @staticmethod
+    def _eye_crop(frame, points):
+        if not points or len(points) < 6:
+            return None
+        xs = [point[0] for point in points]
+        ys = [point[1] for point in points]
+        width = max(xs) - min(xs)
+        height = max(ys) - min(ys)
+        if width <= 4 or height <= 2:
+            return None
+        size = max(width, height) * 1.5
+        center_x = (min(xs) + max(xs)) * 0.5
+        center_y = (min(ys) + max(ys)) * 0.5
+        x1 = max(0, int(center_x - size * 0.5))
+        y1 = max(0, int(center_y - size * 0.5))
+        x2 = min(frame.shape[1], int(center_x + size * 0.5))
+        y2 = min(frame.shape[0], int(center_y + size * 0.5))
+        crop = frame[y1:y2, x1:x2]
+        if crop.size == 0 or min(crop.shape[:2]) < 8:
+            return None
+        return cv2.cvtColor(crop, cv2.COLOR_BGR2RGB)
+
     def detect(self, frame):
         self.frame_index += 1
         h, w = frame.shape[:2]
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         now = time.monotonic()
         left_ear = right_ear = ear = mar = None
+        left_eye_points = right_eye_points = None
+        eye_model_closed_probability = None
         eye_source = "none"
         face_bbox = (0, 0, w, h)
         face_detected = False
@@ -207,6 +258,7 @@ class FatigueDetector:
                 landmarks = results.face_landmarks[0]
                 left = landmark_coords(landmarks, LEFT_EYE_EAR, w, h)
                 right = landmark_coords(landmarks, RIGHT_EYE_EAR, w, h)
+                left_eye_points, right_eye_points = left, right
                 mouth_pts = landmark_coords(landmarks, MOUTH_MAR, w, h)
                 left_ear = eye_aspect_ratio(left)
                 right_ear = eye_aspect_ratio(right)
@@ -243,7 +295,6 @@ class FatigueDetector:
             self.config.looking_down_pitch_deg,
             self.config.looking_down_landmark_ratio,
         )
-
         if face_detected and looking_down:
             if self._down_started_at is None:
                 self._down_started_at = now
@@ -258,6 +309,17 @@ class FatigueDetector:
             self.config.head_drop_min_s,
         )
 
+        if self.eye_model_experiment_enabled and self.eye_model is not None and face_detected and eye_source == "MediaPipe Tasks":
+            probabilities = []
+            for points in (left_eye_points, right_eye_points):
+                crop = self._eye_crop(frame, points)
+                if crop is not None:
+                    score = self.eye_model.score_closed(crop)
+                    if score is not None:
+                        probabilities.append(score)
+            if probabilities:
+                eye_model_closed_probability = float(np.mean(probabilities))
+
         eye_obs = self.eyes.update(
             left_ear=left_ear,
             right_ear=right_ear,
@@ -266,6 +328,7 @@ class FatigueDetector:
             looking_down=looking_down,
             pitch_deg=pitch_deg,
             timestamp=now,
+            eye_model_closed_probability=eye_model_closed_probability,
             head_pose_status=head_pose_status,
             looking_down_duration_s=looking_down_duration_s,
         )
@@ -283,9 +346,12 @@ class FatigueDetector:
             model_ok=self.onnx.available and model_score is not None,
         )
 
-        status = fused.state if fused.state in ("ALERT", "DROWSY") else "ALERT"
-        index = fused.index if face_detected else 0.0
-        activity_label = fused.activity_label or ("No face" if not face_detected else "")
+        if not face_detected:
+            status = "NO FACE"
+            index = 0.0
+        else:
+            status = fused.state
+            index = fused.index
 
         confidence = index * 100.0
         features = {
@@ -295,6 +361,7 @@ class FatigueDetector:
             "right_ear": right_ear if right_ear is not None else float("nan"),
             "eye_state": eye_obs.eye_state,
             "eye_state_estimate": eye_obs.eye_state_estimate,
+            "activity_label": fused.activity_label,
             "mouth_class": mouth_obs.mouth_class,
             "looking_down": looking_down,
             "pitch_deg": pitch_deg,
@@ -303,6 +370,11 @@ class FatigueDetector:
             "perclos": eye_obs.perclos,
             "closed_duration_s": eye_obs.closed_duration_s,
             "eye_event": eye_obs.event,
+            "eye_model_experiment_enabled": self.eye_model_experiment_enabled,
+            "eye_model_available": bool(self.eye_model and self.eye_model.available),
+            "eye_model_closed_probability": eye_model_closed_probability,
+            "eye_model_assisted_temporal_state": eye_obs.eye_model_assisted,
+            "temporal_eye_state": eye_obs.eye_state,
             "calibrating": eye_obs.calibrating,
             "open_ear_baseline": eye_obs.open_ear_baseline,
             "closed_threshold": eye_obs.closed_threshold,
@@ -314,7 +386,6 @@ class FatigueDetector:
             "fatigue_score_raw": index,
             "face_bbox": face_bbox,
             "eye_source": eye_source,
-            "activity_label": activity_label,
             "reasons": fused.reasons,
             "yawn_model": self.yawn_model.predict(None)["missing"],
         }
@@ -322,15 +393,19 @@ class FatigueDetector:
         n = max(1, self.config.debug_every_n_frames)
         if self.frame_index % n == 0:
             logger.info(
-                "frame=%s state=%s index=%.2f EAR=%s MAR=%s eye=%s closed_s=%.2f blink_event=%s mouth=%s",
+                "frame=%s state=%s index=%.2f EAR=%s MAR=%s ear_estimate=%s temporal_eye=%s closed_s=%.2f blink_event=%s eye_model=%s model_closed=%s assisted=%s mouth=%s",
                 self.frame_index,
                 status,
                 index,
                 ear,
                 mar,
+                eye_obs.eye_state_estimate,
                 eye_obs.eye_state,
                 eye_obs.closed_duration_s,
                 eye_obs.event,
+                self.eye_model_experiment_enabled,
+                eye_model_closed_probability,
+                eye_obs.eye_model_assisted,
                 mouth_obs.mouth_class,
             )
 

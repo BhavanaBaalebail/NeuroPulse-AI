@@ -186,6 +186,18 @@ Behavioral features are indirect indicators. Typing speed, inactivity, and inter
 
 Behavior collection should be transparent, limited to necessary signals, and conducted with appropriate user consent.
 
+### Personal behavior-pattern prototype
+
+`data/personal_behaviour_sessions.csv` contains 15 real sessions with self-reported sleepiness ratings (1–9); 12 meet the collector's quality-ready flag, and click rate is missing for two. The prototype reports all 15 ratings but computes feature associations and rating-band medians only on the 12 quality-ready sessions. `data/personal_behaviour_synthetic.csv` contains 90 synthetic rows across nine source sessions without ratings and is excluded. The separate prototype is **not a trained classifier** and reports no fatigue accuracy. The data is one person's small sample, so the summaries are exploratory only. Click-rate associations are not interpreted because the live collector normalizes by clustered active-click duration rather than elapsed session time.
+
+Build the isolated JSON pattern artifact and evaluation reports with:
+
+```bash
+python3 src/personal_behaviour_pattern.py
+```
+
+Outputs are `models/behavior_pattern_prototype_personal_v1.json` and `data/personal_behaviour_pattern_evaluation.{json,md}`. The existing dashboard shows these summaries in a collapsed **Personal behavior patterns · exploratory** panel. This workflow does not read or overwrite the production XGBoost model or scaler.
+
 ## Modeling and Explainability
 
 NeuroPulse AI combines model inference with rule-based temporal analysis.
@@ -368,6 +380,8 @@ From the project root, use the dashboard path supported by your checkout:
 ```bash
 streamlit run src/dashboard.py
 ```
+
+The dashboard's current demo and live behavior predictions remain unchanged by the personal pattern prototype.
 
 If your project expects the working directory to be `src/`, use:
 

@@ -29,11 +29,16 @@ class VisionConfig:
     perclos_window_s: float = 30.0
     possible_fatigue_perclos: float = 0.25
     drowsy_perclos: float = 0.40
+    unknown_hold_s: float = 0.60
+
+    # --- Experimental eye-crop classifier; never enabled by default ---
+    eye_model_experimental_enabled: bool = False
+    eye_model_closed_threshold: float = 0.85
 
     # --- Head pose (degrees). Negative pitch = looking down toward keyboard. ---
     looking_down_pitch_deg: float = -12.0
     looking_down_landmark_ratio: float = 0.42
-    # Downward pose shorter than this is treated as a glance; at/above it is head dropping.
+    # Downward pose shorter than this is a glance; longer is head dropping.
     head_drop_min_s: float = 1.20
 
     # --- Mouth (MAR is unitless: inner-lip height / mouth width) ---

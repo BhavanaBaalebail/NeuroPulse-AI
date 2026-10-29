@@ -1,6 +1,9 @@
 import json
+import os
 from pathlib import Path
 from typing import Any, Dict, List
+
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
 
 import numpy as np
 from sentence_transformers import SentenceTransformer

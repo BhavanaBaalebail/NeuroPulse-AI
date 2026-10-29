@@ -11,8 +11,9 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from logger import FEATURE_NAMES
+from logger import FEATURE_NAMES, LiveBehaviourMonitor
 from personal_collector import (
+    REAL_CSV,
     REAL_COLUMNS,
     append_session_row,
     build_session_row,
@@ -87,6 +88,32 @@ class PersonalCollectorTests(unittest.TestCase):
             payload = export_payload(real_path, synthetic_path)
             self.assertIn('"real"', payload)
             self.assertIn('"synthetic": []', payload)
+
+    def test_completed_session_creates_csv_with_one_row(self):
+        self.assertEqual(REAL_CSV, ROOT / "data" / "personal_behaviour_sessions.csv")
+        with tempfile.TemporaryDirectory() as directory:
+            real_path = Path(directory) / "personal_behaviour_sessions.csv"
+            monitor = LiveBehaviourMonitor(
+                window_seconds=60,
+                warmup_seconds=0,
+                now_fn=lambda: 100.0,
+            )
+            monitor.start(enable_listeners=False)
+            monitor.record_key()
+            final_snapshot = monitor.snapshot()
+
+            row = save_snapshot(
+                final_snapshot,
+                started_at="2026-10-24 12:00:00",
+                path=real_path,
+            )
+            monitor.stop()
+
+            self.assertTrue(real_path.is_file())
+            saved = load_sessions(real_path)
+            self.assertEqual(len(saved), 1)
+            self.assertEqual(saved.iloc[0]["session_id"], row["session_id"])
+            self.assertEqual(saved.iloc[0]["started_at"], "2026-10-24 12:00:00")
 
     def test_synthetic_rows_keep_feature_covariance_and_source_ids(self):
         rng = np.random.default_rng(44)

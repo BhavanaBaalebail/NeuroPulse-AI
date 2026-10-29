@@ -175,9 +175,14 @@ def save_snapshot(
     snapshot: dict,
     *,
     sleepiness_rating: Optional[int] = None,
+    started_at: Optional[str] = None,
     path: Path = REAL_CSV,
 ) -> dict[str, Any]:
-    row = build_session_row(snapshot, sleepiness_rating=sleepiness_rating)
+    row = build_session_row(
+        snapshot,
+        sleepiness_rating=sleepiness_rating,
+        started_at=started_at,
+    )
     append_session_row(row, path=path)
     return row
 

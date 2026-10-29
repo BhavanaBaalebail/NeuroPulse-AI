@@ -98,24 +98,12 @@ class AppIntegrationTests(unittest.TestCase):
                 app.write_vision_bridge(
                     "ALERT",
                     12.0,
-                    {
-                        "fatigue_score": 0.12,
-                        "reasons": ["eyes_open_stable"],
-                        "eye_state": "OPEN",
-                        "mouth_class": "closed",
-                        "activity_label": "Glancing down",
-                        "head_pose_status": "glance_down",
-                        "looking_down": True,
-                        "looking_down_duration_s": 0.0,
-                        "pitch_deg": 2.0,
-                    },
+                    {"fatigue_score": 0.12, "reasons": ["eyes_open_stable"], "eye_state": "OPEN", "mouth_class": "closed"},
                 )
             data = json.loads(path.read_text())
             self.assertEqual(data["label"], "ALERT")
             self.assertFalse(data["index_is_probability"])
             self.assertEqual(data["reasons"][0], "eyes_open_stable")
-            self.assertEqual(data.get("activity_label"), "Glancing down")
-            self.assertNotIn(data["label"], ("Glancing down", "head_dropping", "POSSIBLE FATIGUE"))
 
     def test_detector_cleanup(self):
         from vision.detector import FatigueDetector

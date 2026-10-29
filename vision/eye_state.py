@@ -29,6 +29,8 @@ class EyeObservation:
     closed_threshold: float
     open_threshold: float
     reasons: list[str] = field(default_factory=list)
+    eye_model_closed_probability: Optional[float] = None
+    eye_model_assisted: bool = False
     eye_state_estimate: Optional[str] = None
     head_pose_status: str = "level"
     looking_down_duration_s: float = 0.0
@@ -107,6 +109,7 @@ class EyeStateTracker:
         looking_down: bool = False,
         pitch_deg: Optional[float] = None,
         timestamp: Optional[float] = None,
+        eye_model_closed_probability: Optional[float] = None,
         head_pose_status: str = "level",
         looking_down_duration_s: float = 0.0,
     ) -> EyeObservation:
@@ -135,6 +138,18 @@ class EyeStateTracker:
             reasons.append("calibrating_open_eyes")
 
         new_state = self._classify(combined_ear if face_detected else None)
+        eye_state_estimate = new_state
+        model_assisted = False
+        if (
+            face_detected
+            and combined_ear is not None
+            and eye_model_closed_probability is not None
+            and self._thresholds()[0] <= combined_ear <= self._thresholds()[1]
+            and eye_model_closed_probability >= self.config.eye_model_closed_threshold
+            and new_state != "CLOSED"
+        ):
+            new_state = "CLOSED"
+            model_assisted = True
         event = "none"
         closed_duration = 0.0
 
@@ -173,8 +188,6 @@ class EyeStateTracker:
             face_detected=face_detected,
             looking_down=looking_down,
             pitch_deg=pitch_deg,
-            head_pose_status=head_pose_status,
-            looking_down_duration_s=looking_down_duration_s,
             eye_state=new_state,
             event=event,
             closed_duration_s=closed_duration,
@@ -185,7 +198,11 @@ class EyeStateTracker:
             closed_threshold=closed_t,
             open_threshold=open_t,
             reasons=reasons,
-            eye_state_estimate=new_state,
+            eye_model_closed_probability=eye_model_closed_probability,
+            eye_model_assisted=model_assisted,
+            eye_state_estimate=eye_state_estimate,
+            head_pose_status=head_pose_status,
+            looking_down_duration_s=looking_down_duration_s,
         )
 
     def _save(self) -> None:

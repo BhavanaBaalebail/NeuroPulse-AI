@@ -1,0 +1,279 @@
+{
+  "artifact_type": "descriptive_personal_behavior_pattern",
+  "version": "personal_rating_pattern_v1",
+  "predictive_model": false,
+  "classifier_trained": false,
+  "scope": "one person's real session summaries only",
+  "rating_source": "user self-reported sleepiness_rating on a 1-9 scale",
+  "features": [
+    "typing_speed_kpm",
+    "backspace_rate",
+    "std_key_interval_ms",
+    "mouse_speed_px_per_sec",
+    "click_rate_per_min",
+    "mean_click_latency_ms",
+    "idle_time_sec",
+    "session_minutes"
+  ],
+  "redundant_features_excluded": [
+    "mean_key_interval_ms",
+    "mouse_distance_px"
+  ],
+  "synthetic_rows_used": 0,
+  "sessions": 15,
+  "rating_counts_all_rated_sessions": {
+    "1": 2,
+    "2": 2,
+    "3": 2,
+    "5": 3,
+    "6": 2,
+    "7": 1,
+    "8": 2,
+    "9": 1
+  },
+  "quality_ready_sessions": 12,
+  "rating_summary": {
+    "median": 5.0,
+    "min": 1.0,
+    "max": 9.0
+  },
+  "feature_rating_associations": {
+    "typing_speed_kpm": {
+      "n": 12,
+      "spearman_rho": -0.5866053989743822,
+      "status": "descriptive_only"
+    },
+    "backspace_rate": {
+      "n": 12,
+      "spearman_rho": 0.6254768410750943,
+      "status": "descriptive_only"
+    },
+    "std_key_interval_ms": {
+      "n": 12,
+      "spearman_rho": 0.27210009470498453,
+      "status": "descriptive_only"
+    },
+    "mouse_speed_px_per_sec": {
+      "n": 12,
+      "spearman_rho": 0.8445704238245623,
+      "status": "descriptive_only"
+    },
+    "click_rate_per_min": {
+      "n": 12,
+      "spearman_rho": null,
+      "status": "not_interpreted_active_click_span_normalization"
+    },
+    "mean_click_latency_ms": {
+      "n": 12,
+      "spearman_rho": -0.03180390717330988,
+      "status": "descriptive_only"
+    },
+    "idle_time_sec": {
+      "n": 12,
+      "spearman_rho": 0.5442001894099691,
+      "status": "descriptive_only"
+    },
+    "session_minutes": {
+      "n": 12,
+      "spearman_rho": 0.1590195358665494,
+      "status": "descriptive_only"
+    }
+  },
+  "rating_band_summaries": {
+    "ratings_1_to_3": {
+      "rating_min": 1,
+      "rating_max": 3,
+      "sessions": 5,
+      "features": {
+        "typing_speed_kpm": {
+          "n": 5,
+          "median": 46.73608917070517,
+          "q1": 45.57341989474361,
+          "q3": 49.27788050555589
+        },
+        "backspace_rate": {
+          "n": 5,
+          "median": 0.0754716981132075,
+          "q1": 0.0684931506849315,
+          "q3": 0.1071428571428571
+        },
+        "std_key_interval_ms": {
+          "n": 5,
+          "median": 174.22724386812712,
+          "q1": 135.20907226310462,
+          "q3": 255.30303966668257
+        },
+        "mouse_speed_px_per_sec": {
+          "n": 5,
+          "median": 945.2392349489734,
+          "q1": 905.4283082741504,
+          "q3": 984.8377747344476
+        },
+        "click_rate_per_min": {
+          "n": 5,
+          "median": 27.00555299262488,
+          "q1": 21.589641635122096,
+          "q3": 32.912094913786355
+        },
+        "mean_click_latency_ms": {
+          "n": 5,
+          "median": 104.27604118982951,
+          "q1": 92.47541427612305,
+          "q3": 106.76738950941298
+        },
+        "idle_time_sec": {
+          "n": 5,
+          "median": 3.1092917919158936,
+          "q1": 2.086538076400757,
+          "q3": 4.731545925140381
+        },
+        "session_minutes": {
+          "n": 5,
+          "median": 0.6477555871009827,
+          "q1": 0.4105696519215902,
+          "q3": 0.8385865330696106
+        }
+      }
+    },
+    "ratings_4_to_6": {
+      "rating_min": 4,
+      "rating_max": 6,
+      "sessions": 4,
+      "features": {
+        "typing_speed_kpm": {
+          "n": 4,
+          "median": 32.48769898524243,
+          "q1": 25.883519855294196,
+          "q3": 40.46271763235397
+        },
+        "backspace_rate": {
+          "n": 4,
+          "median": 0.08918032786885245,
+          "q1": 0.07388888888888888,
+          "q3": 0.16377049180327868
+        },
+        "std_key_interval_ms": {
+          "n": 4,
+          "median": 314.6919538854998,
+          "q1": 245.8886031457382,
+          "q3": 371.99090463648054
+        },
+        "mouse_speed_px_per_sec": {
+          "n": 4,
+          "median": 1226.6335633572062,
+          "q1": 1189.3332005206325,
+          "q3": 1297.999304114117
+        },
+        "click_rate_per_min": {
+          "n": 4,
+          "median": 23.34843869615294,
+          "q1": 22.40219876818974,
+          "q3": 35.787482869762954
+        },
+        "mean_click_latency_ms": {
+          "n": 4,
+          "median": 117.70516633987427,
+          "q1": 85.12066801389058,
+          "q3": 155.10531663894653
+        },
+        "idle_time_sec": {
+          "n": 4,
+          "median": 3.6852225065231323,
+          "q1": 2.5017473101615906,
+          "q3": 8.194159924983978
+        },
+        "session_minutes": {
+          "n": 4,
+          "median": 0.5934828420480092,
+          "q1": 0.5616797844568888,
+          "q3": 0.6644669443368911
+        }
+      }
+    },
+    "ratings_7_to_9": {
+      "rating_min": 7,
+      "rating_max": 9,
+      "sessions": 3,
+      "features": {
+        "typing_speed_kpm": {
+          "n": 3,
+          "median": 35.20520593158725,
+          "q1": 35.15677120637569,
+          "q3": 39.868373253833695
+        },
+        "backspace_rate": {
+          "n": 3,
+          "median": 0.1764705882352941,
+          "q1": 0.15073529411764705,
+          "q3": 0.26045751633986924
+        },
+        "std_key_interval_ms": {
+          "n": 3,
+          "median": 246.72688764567815,
+          "q1": 233.05160125497102,
+          "q3": 269.18674050540295
+        },
+        "mouse_speed_px_per_sec": {
+          "n": 3,
+          "median": 1285.7676554878085,
+          "q1": 1258.8926710018832,
+          "q3": 1292.2859373507629
+        },
+        "click_rate_per_min": {
+          "n": 3,
+          "median": 450.4458489279328,
+          "q1": 305.9640825298611,
+          "q3": 463.06057703169097
+        },
+        "mean_click_latency_ms": {
+          "n": 3,
+          "median": 80.7809829711914,
+          "q1": 48.65849018096924,
+          "q3": 147.96745777130127
+        },
+        "idle_time_sec": {
+          "n": 3,
+          "median": 7.551111936569214,
+          "q1": 6.8326075077056885,
+          "q3": 8.961843967437744
+        },
+        "session_minutes": {
+          "n": 3,
+          "median": 0.748007599512736,
+          "q1": 0.7172274251778921,
+          "q3": 0.7806982676188151
+        }
+      }
+    }
+  },
+  "missing_feature_counts": {
+    "typing_speed_kpm": 0,
+    "backspace_rate": 0,
+    "mean_key_interval_ms": 0,
+    "std_key_interval_ms": 0,
+    "mouse_distance_px": 0,
+    "mouse_speed_px_per_sec": 0,
+    "click_rate_per_min": 2,
+    "mean_click_latency_ms": 0,
+    "idle_time_sec": 0,
+    "session_minutes": 0
+  },
+  "quality_ready_missing_feature_counts": {
+    "typing_speed_kpm": 0,
+    "backspace_rate": 0,
+    "mean_key_interval_ms": 0,
+    "std_key_interval_ms": 0,
+    "mouse_distance_px": 0,
+    "mouse_speed_px_per_sec": 0,
+    "click_rate_per_min": 0,
+    "mean_click_latency_ms": 0,
+    "idle_time_sec": 0,
+    "session_minutes": 0
+  },
+  "quality_status_counts": {
+    "ready": 12,
+    "insufficient": 3
+  },
+  "personal_csv_synthetic_rows_excluded": 0,
+  "disclaimer": "Exploratory personal behavior-pattern summary linked to self-reported sleepiness. This is not a trained fatigue classifier, does not predict sleepiness, and is not evidence of population-level or clinical accuracy."
+}

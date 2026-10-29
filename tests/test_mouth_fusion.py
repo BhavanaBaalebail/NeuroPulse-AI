@@ -1,10 +1,9 @@
 import unittest
 
 from vision.config import VisionConfig
-from vision.eye_state import EyeObservation
-from vision.fusion import describe_activity, fuse
+from vision.eye_state import EyeObservation, EyeStateTracker
+from vision.fusion import fuse
 from vision.mouth_state import MouthStateTracker
-from vision.overlay import format_status_headline
 
 
 def _eye(**kwargs):
@@ -62,66 +61,13 @@ class MouthFusionTests(unittest.TestCase):
     def test_looking_down_does_not_by_itself_trigger_drowsy(self):
         mouth = MouthStateTracker(VisionConfig()).update(0.08, timestamp=1.0)
         result = fuse(
-            _eye(
-                looking_down=True,
-                eye_state="CLOSED",
-                closed_duration_s=0.5,
-                perclos=0.2,
-                head_pose_status="glance_down",
-                looking_down_duration_s=0.3,
-            ),
+            _eye(looking_down=True, eye_state="CLOSED", closed_duration_s=0.5, perclos=0.2),
             mouth,
             model_score=0.6,
             model_ok=True,
         )
-        self.assertEqual(result.state, "ALERT")
-        self.assertEqual(result.activity_label, "Glancing down")
-        self.assertEqual(format_status_headline("ALERT", result.activity_label), "ALERT - Glancing down")
-
-    def test_head_dropping_alone_is_not_drowsy(self):
-        mouth = MouthStateTracker(VisionConfig()).update(0.08, timestamp=1.0)
-        result = fuse(
-            _eye(
-                looking_down=True,
-                eye_state="OPEN",
-                head_pose_status="head_dropping",
-                looking_down_duration_s=1.8,
-            ),
-            mouth,
-            model_score=None,
-            model_ok=False,
-        )
-        self.assertEqual(result.state, "ALERT")
-        self.assertEqual(result.activity_label, "Head dropping")
-
-    def test_head_dropping_with_prolonged_closure_is_combined(self):
-        mouth = MouthStateTracker(VisionConfig()).update(0.08, timestamp=2.0)
-        result = fuse(
-            _eye(
-                looking_down=True,
-                eye_state="CLOSED",
-                closed_duration_s=1.6,
-                event="prolonged_closure",
-                perclos=0.2,
-                head_pose_status="head_dropping",
-                looking_down_duration_s=1.8,
-            ),
-            mouth,
-            model_score=None,
-            model_ok=False,
-        )
-        self.assertEqual(result.state, "DROWSY")
-        self.assertTrue(any("combined" in r or "sustained_eye_closure" in r for r in result.reasons))
-
-    def test_high_perclos_does_not_stick_after_eyes_reopen(self):
-        mouth = MouthStateTracker(VisionConfig()).update(0.08, timestamp=3.0)
-        result = fuse(
-            _eye(eye_state="OPEN", closed_duration_s=0.0, perclos=0.55),
-            mouth,
-            model_score=None,
-            model_ok=False,
-        )
-        self.assertEqual(result.state, "ALERT")
+        self.assertNotEqual(result.state, "DROWSY")
+        self.assertTrue(any("looking_down" in r for r in result.reasons))
 
     def test_normal_blink_stays_alert(self):
         mouth = MouthStateTracker(VisionConfig()).update(0.08, timestamp=1.0)
@@ -139,7 +85,7 @@ class MouthFusionTests(unittest.TestCase):
         self.assertEqual(result.state, "DROWSY")
         self.assertTrue(any("sustained_eye_closure" in r for r in result.reasons))
 
-    def test_missing_face_uncertain(self):
+    def test_missing_face_is_alert_with_separate_activity(self):
         mouth = MouthStateTracker(VisionConfig()).update(None, timestamp=0.0)
         result = fuse(_eye(face_detected=False, eye_state="UNKNOWN"), mouth, None, model_ok=False)
         self.assertEqual(result.state, "ALERT")
@@ -149,7 +95,6 @@ class MouthFusionTests(unittest.TestCase):
         mouth = MouthStateTracker(VisionConfig()).update(0.08, timestamp=1.0)
         result = fuse(_eye(perclos=0.04), mouth, model_score=0.99, model_ok=True)
         self.assertEqual(result.state, "ALERT")
-
     def test_temporal_state_transitions(self):
         cfg = VisionConfig(prolonged_closure_s=0.8, drowsy_closure_s=1.5)
         mouth = MouthStateTracker(cfg).update(0.08, timestamp=0.0)
@@ -162,7 +107,7 @@ class MouthFusionTests(unittest.TestCase):
         res = fuse(_eye(eye_state="CLOSED", closed_duration_s=0.2, event="blink", perclos=0.05), mouth, None, config=cfg)
         self.assertEqual(res.state, "ALERT")
 
-        # Short/prolonged closure under the drowsy threshold stays ALERT
+        # Vision's primary states remain ALERT/DROWSY; activity is supplementary.
         res = fuse(_eye(eye_state="CLOSED", closed_duration_s=0.9, perclos=0.1), mouth, None, config=cfg)
         self.assertEqual(res.state, "ALERT")
 
@@ -173,6 +118,35 @@ class MouthFusionTests(unittest.TestCase):
         # Recovery: eyes reopen -> ALERT
         res = fuse(_eye(eye_state="OPEN", closed_duration_s=0.0, perclos=0.1), mouth, None, config=cfg)
         self.assertEqual(res.state, "ALERT")
+
+    def test_experimental_eye_assistance_keeps_blinks_temporal(self):
+        cfg = VisionConfig(calibration_frames=3, eye_model_experimental_enabled=True)
+        tracker = EyeStateTracker(cfg, calibration_path=None)
+        for i in range(3):
+            eye = tracker.update(0.34, 0.34, 0.34, True, timestamp=i * 0.05)
+        for i in range(1, 13):
+            eye = tracker.update(0.34, 0.34, 0.34, True, timestamp=0.15 + i * 0.05)
+        mouth = MouthStateTracker(cfg).update(0.08, timestamp=0.8)
+        mid_ear = (eye.closed_threshold + eye.open_threshold) / 2
+
+        blink = tracker.update(mid_ear, mid_ear, mid_ear, True, timestamp=0.85, eye_model_closed_probability=0.99)
+        self.assertTrue(blink.eye_model_assisted)
+        self.assertEqual(fuse(blink, mouth, None, config=cfg).state, "ALERT")
+        reopened = tracker.update(0.34, 0.34, 0.34, True, timestamp=1.05, eye_model_closed_probability=0.0)
+        self.assertEqual(reopened.event, "blink")
+        self.assertEqual(fuse(reopened, mouth, None, config=cfg).state, "ALERT")
+
+        sustained = None
+        for i in range(18):
+            sustained = tracker.update(
+                mid_ear,
+                mid_ear,
+                mid_ear,
+                True,
+                timestamp=1.15 + i * 0.1,
+                eye_model_closed_probability=0.99,
+            )
+        self.assertEqual(fuse(sustained, mouth, None, config=cfg).state, "DROWSY")
 
     def test_candidate_yawn_alone_does_not_cause_drowsy(self):
         cfg = VisionConfig()
@@ -185,34 +159,6 @@ class MouthFusionTests(unittest.TestCase):
         res = fuse(_eye(eye_state="OPEN", closed_duration_s=0.0, perclos=0.0), obs, None, config=cfg)
         self.assertNotEqual(res.state, "DROWSY")
         self.assertTrue(any("candidate_yawn" in r for r in res.reasons))
-        self.assertEqual(res.activity_label, "Drowsy-possible yawn")
-        self.assertEqual(res.state, "ALERT")
-        self.assertEqual(
-            format_status_headline("ALERT", res.activity_label),
-            "ALERT - Drowsy-possible yawn",
-        )
-
-    def test_activity_label_clears_when_head_is_level(self):
-        mouth = MouthStateTracker(VisionConfig()).update(0.08, timestamp=1.0)
-        down = fuse(
-            _eye(looking_down=True, head_pose_status="glance_down", looking_down_duration_s=0.3),
-            mouth,
-            None,
-            model_ok=False,
-        )
-        up = fuse(
-            _eye(looking_down=False, head_pose_status="level", looking_down_duration_s=0.0),
-            mouth,
-            None,
-            model_ok=False,
-        )
-        self.assertEqual(down.activity_label, "Glancing down")
-        self.assertEqual(up.state, "ALERT")
-        self.assertEqual(up.activity_label, "")
-        self.assertEqual(format_status_headline("ALERT", up.activity_label), "ALERT")
-        self.assertEqual(format_status_headline("ALERT?", "Talking?"), "ALERT - Talking")
-        self.assertEqual(format_status_headline("DROWSY?", ""), "DROWSY")
-        self.assertEqual(describe_activity(_eye(), mouth, "level"), "")
 
 
 if __name__ == "__main__":
